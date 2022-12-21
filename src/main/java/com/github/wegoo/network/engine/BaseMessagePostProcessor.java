@@ -9,7 +9,7 @@ import io.netty.buffer.ByteBuf;
  * @date: 2022/12/20  21:13
  * @since: 1.0.0
  */
-public interface BaseServerMessagePostProcessor<T> {
+public interface BaseMessagePostProcessor<T> {
 
   /**
    * @author zhangzhenwei

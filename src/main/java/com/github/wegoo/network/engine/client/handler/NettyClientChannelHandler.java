@@ -1,8 +1,7 @@
 package com.github.wegoo.network.engine.client.handler;
 
-import com.github.wegoo.network.engine.BaseClientMessagePostProcessor;
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.client.future.FutureHolder;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -18,11 +17,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NettyClientChannelHandler extends SimpleChannelInboundHandler<BaseMessage> {
 
-  private BaseClientMessagePostProcessor<BaseMessage> baseMessageBaseClientMessagePostProcessor;
+  private BaseMessagePostProcessor<BaseMessage> processor;
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, BaseMessage msg) throws Exception {
-    FutureHolder.success(123123123, msg.getData());
-    baseMessageBaseClientMessagePostProcessor.postProcessMessage(msg);
+    BaseMessage baseMessage = processor.postProcessMessage(msg);
+    //若有处理结果，则继续发送消息
+    if (baseMessage != null) {
+      ctx.writeAndFlush(baseMessage);
+    }
   }
 }

@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.client;
 
-import com.github.wegoo.network.engine.BaseClientMessagePostProcessor;
 import com.github.wegoo.network.engine.BaseMessage;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.client.coder.NettyClientDecoder;
 import com.github.wegoo.network.engine.client.coder.NettyClientEncoder;
 import com.github.wegoo.network.engine.client.handler.NettyClientChannelHandler;
@@ -24,7 +24,7 @@ public class NettyNetworkClient implements INetworkClient {
 
   Channel channel;
 
-  public void client(String host, int port, BaseClientMessagePostProcessor<BaseMessage> processor)
+  public void client(String host, int port, BaseMessagePostProcessor<BaseMessage> processor)
       throws InterruptedException {
     NioEventLoopGroup work = new NioEventLoopGroup(1);
     ChannelFuture future = new Bootstrap().channel(NioSocketChannel.class)

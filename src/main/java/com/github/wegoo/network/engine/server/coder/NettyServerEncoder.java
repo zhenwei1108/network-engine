@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.server.coder;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseServerMessagePostProcessor;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -17,10 +17,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NettyServerEncoder extends MessageToByteEncoder<BaseMessage> {
 
-  private BaseServerMessagePostProcessor<BaseMessage> baseServerMessagePostProcessor;
+  private BaseMessagePostProcessor<BaseMessage> baseMessagePostProcessor;
 
   @Override
   protected void encode(ChannelHandlerContext ctx, BaseMessage msg, ByteBuf out) throws Exception {
-    out.writeBytes(baseServerMessagePostProcessor.postProcessBeforeSendMessage(msg));
+    out.writeBytes(baseMessagePostProcessor.postProcessBeforeSendMessage(msg));
   }
 }
