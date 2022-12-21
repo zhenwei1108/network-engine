@@ -1,7 +1,7 @@
 package com.github.wegoo.network.test;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessageHandler;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.server.NettyNetworkServer;
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
@@ -20,10 +20,10 @@ public class NettyServerTest {
   }
 
 
-  class TestBaseMessageHandler implements BaseMessageHandler<BaseMessage> {
+  class TestBaseMessageHandler implements BaseMessagePostProcessor<BaseMessage> {
 
     @Override
-    public BaseMessage preHandler(ByteBuf buf) {
+    public BaseMessage postProcessByteBufToMessage(ByteBuf buf) {
       byte[] array = new byte[6];
       buf.readBytes(array);
       System.out.println("pre handler :" + Hex.toHexString(array));
@@ -34,19 +34,19 @@ public class NettyServerTest {
       return protocolChannel;
     }
 
-
     @Override
-    public void doHandler(BaseMessage message) {
+    public BaseMessage postProcessMessage(BaseMessage message) {
       if (message instanceof ProtocolChannel) {
         ProtocolChannel channel = (ProtocolChannel) message;
         System.out.println("doHandler:" + channel.getType());
         System.out.println("doHandler:" + Hex.toHexString(channel.getData()));
         channel.setData(new byte[]{1, 2, 3, 4, 5, 6});
       }
+      return new ProtocolChannel();
     }
 
     @Override
-    public byte[] afterHandler(BaseMessage message) {
+    public byte[] postProcessMessageToBytes(BaseMessage message) {
       if (message instanceof ProtocolChannel) {
         ProtocolChannel channel = (ProtocolChannel) message;
         System.out.println("afterHandler:" + Hex.toHexString(channel.getData()));
