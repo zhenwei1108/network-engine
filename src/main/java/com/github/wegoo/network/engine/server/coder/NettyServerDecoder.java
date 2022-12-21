@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.server.coder;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.BaseServerMessagePostProcessor;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
@@ -19,10 +19,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NettyServerDecoder extends ReplayingDecoder<Void> {
 
-  private BaseMessagePostProcessor<BaseMessage> baseMessagePostProcessor;
+  private BaseServerMessagePostProcessor<BaseMessage> baseServerMessagePostProcessor;
 
   @Override
   protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-    out.add(baseMessagePostProcessor.postProcessByteBufToMessage(in));
+    out.add(baseServerMessagePostProcessor.postProcessReadByteBuf(in));
   }
 }

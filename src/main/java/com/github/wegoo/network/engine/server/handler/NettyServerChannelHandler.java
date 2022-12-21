@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.server.handler;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.BaseServerMessagePostProcessor;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
@@ -16,10 +16,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NettyServerChannelHandler extends SimpleChannelInboundHandler<BaseMessage> {
 
-  private BaseMessagePostProcessor<BaseMessage> baseMessagePostProcessor;
+  private BaseServerMessagePostProcessor<BaseMessage> baseServerMessagePostProcessor;
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx, BaseMessage msg) throws Exception {
-    ctx.writeAndFlush(baseMessagePostProcessor.postProcessMessage(msg));
+    ctx.writeAndFlush(baseServerMessagePostProcessor.postProcessMessage(msg));
   }
 }

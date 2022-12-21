@@ -4,12 +4,12 @@ import io.netty.buffer.ByteBuf;
 
 /**
  * @author: zhangzhenwei
- * @description: BaseMessagePostProcessor
+ * @description: BaseServerMessagePostProcessor
  *  消息基础处理类
  * @date: 2022/12/20  21:13
  * @since: 1.0.0
  */
-public interface BaseMessagePostProcessor<T> {
+public interface BaseServerMessagePostProcessor<T> {
 
   /**
    * @author zhangzhenwei
@@ -17,7 +17,7 @@ public interface BaseMessagePostProcessor<T> {
    * @date 2022/12/21  16:04
    * @since: 1.0.0
    */
-  T postProcessByteBufToMessage(ByteBuf obj);
+  T postProcessReadByteBuf(ByteBuf obj);
 
   /**
    * @author zhangzhenwei
@@ -35,7 +35,7 @@ public interface BaseMessagePostProcessor<T> {
    * @date 2022/12/21  16:47
    * @since: 1.0.0
    */
-  byte[] postProcessMessageToBytes(T message);
+  byte[] postProcessBeforeSendMessage(T message);
 
 
 }

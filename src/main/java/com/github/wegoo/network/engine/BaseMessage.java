@@ -8,6 +8,11 @@ package com.github.wegoo.network.engine;
  * @since: 1.0.0 
  */
 public interface BaseMessage {
+  long getMessageId();
+
+  void setData(byte[] data);
+
+  byte[] getData();
 
   String toString();
 
