@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
  * @since: 1.0.0 
  */
 @AllArgsConstructor
-public class DefaultMessageHandler extends SimpleChannelInboundHandler<BaseMessage> {
+public class NettyServerChannelHandler extends SimpleChannelInboundHandler<BaseMessage> {
 
   private BaseMessageHandler<BaseMessage> baseMessageHandler;
 
