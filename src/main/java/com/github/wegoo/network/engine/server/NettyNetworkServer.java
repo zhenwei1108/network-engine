@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.server;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessageHandler;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.server.coder.NettyServerDecoder;
 import com.github.wegoo.network.engine.server.coder.NettyServerEncoder;
 import com.github.wegoo.network.engine.server.handler.NettyServerChannelHandler;
@@ -19,12 +19,12 @@ import io.netty.handler.logging.LoggingHandler;
  * @author: zhangzhenwei 
  * @description: NettyNetworkServer
  *  服务端实现， 服务端要持久运行，不支持关闭
- * @date: 2022/12/21  15:56
+ * @date: 2022/12/21  16:10
  * @since: 1.0.0 
  */
 public class NettyNetworkServer implements INetworkServer {
 
-  public void server(int port, BaseMessageHandler<BaseMessage> baseMessageHandler)
+  public void server(int port, BaseMessagePostProcessor<BaseMessage> baseMessagePostProcessor)
       throws InterruptedException {
     NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
     NioEventLoopGroup workGroup = new NioEventLoopGroup();
@@ -41,9 +41,9 @@ public class NettyNetworkServer implements INetworkServer {
             @Override
             protected void initChannel(NioSocketChannel channel) throws Exception {
               channel.pipeline()
-                  .addLast(new NettyServerDecoder(baseMessageHandler))
-                  .addLast(new NettyServerEncoder(baseMessageHandler))
-                  .addLast(new NettyServerChannelHandler(baseMessageHandler));
+                  .addLast(new NettyServerDecoder(baseMessagePostProcessor))
+                  .addLast(new NettyServerEncoder(baseMessagePostProcessor))
+                  .addLast(new NettyServerChannelHandler(baseMessagePostProcessor));
             }
           });
       ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
