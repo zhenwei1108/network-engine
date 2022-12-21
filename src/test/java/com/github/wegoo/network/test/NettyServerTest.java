@@ -1,7 +1,7 @@
 package com.github.wegoo.network.test;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseServerMessagePostProcessor;
+import com.github.wegoo.network.engine.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.server.NettyNetworkServer;
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
@@ -14,13 +14,13 @@ public class NettyServerTest {
   public void testServer() throws InterruptedException {
 
     NettyNetworkServer nettyNetworkServer = new NettyNetworkServer();
-    TestBaseServerMessageHandler handler = new TestBaseServerMessageHandler();
+    TestBaseMessageHandler handler = new TestBaseMessageHandler();
     nettyNetworkServer.server(9999, handler);
 
   }
 
 
-  class TestBaseServerMessageHandler implements BaseServerMessagePostProcessor<BaseMessage> {
+  class TestBaseMessageHandler implements BaseMessagePostProcessor<BaseMessage> {
 
     @Override
     public BaseMessage postProcessReadByteBuf(ByteBuf buf) {
