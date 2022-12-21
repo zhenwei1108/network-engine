@@ -1,7 +1,7 @@
 package com.github.wegoo.network.test;
 
 import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.BaseServerMessagePostProcessor;
 import com.github.wegoo.network.engine.server.NettyNetworkServer;
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
@@ -14,21 +14,22 @@ public class NettyServerTest {
   public void testServer() throws InterruptedException {
 
     NettyNetworkServer nettyNetworkServer = new NettyNetworkServer();
-    TestBaseMessageHandler handler = new TestBaseMessageHandler();
+    TestBaseServerMessageHandler handler = new TestBaseServerMessageHandler();
     nettyNetworkServer.server(9999, handler);
 
   }
 
 
-  class TestBaseMessageHandler implements BaseMessagePostProcessor<BaseMessage> {
+  class TestBaseServerMessageHandler implements BaseServerMessagePostProcessor<BaseMessage> {
 
     @Override
-    public BaseMessage postProcessByteBufToMessage(ByteBuf buf) {
+    public BaseMessage postProcessReadByteBuf(ByteBuf buf) {
       byte[] array = new byte[6];
       buf.readBytes(array);
       System.out.println("pre handler :" + Hex.toHexString(array));
       ProtocolChannel protocolChannel = new ProtocolChannel();
       protocolChannel.setData(array);
+      protocolChannel.setMessageId(22222222);
       protocolChannel.setLen(array.length);
       protocolChannel.setType("安全通道");
       return protocolChannel;
@@ -42,11 +43,11 @@ public class NettyServerTest {
         System.out.println("doHandler:" + Hex.toHexString(channel.getData()));
         channel.setData(new byte[]{1, 2, 3, 4, 5, 6});
       }
-      return new ProtocolChannel();
+      return message;
     }
 
     @Override
-    public byte[] postProcessMessageToBytes(BaseMessage message) {
+    public byte[] postProcessBeforeSendMessage(BaseMessage message) {
       if (message instanceof ProtocolChannel) {
         ProtocolChannel channel = (ProtocolChannel) message;
         System.out.println("afterHandler:" + Hex.toHexString(channel.getData()));
@@ -60,6 +61,7 @@ public class NettyServerTest {
   @Data
   class ProtocolChannel implements BaseMessage {
 
+    private long messageId;
     private String type;
     private int len;
     private byte[] data;
