@@ -18,8 +18,8 @@ import io.netty.handler.logging.LoggingHandler;
 /**
  * @author: zhangzhenwei 
  * @description: NettyNetworkServer
- *  服务端实现
- * @date: 2022/12/21  15:55
+ *  服务端实现， 服务端要持久运行，不支持关闭
+ * @date: 2022/12/21  15:56
  * @since: 1.0.0 
  */
 public class NettyNetworkServer implements INetworkServer {
