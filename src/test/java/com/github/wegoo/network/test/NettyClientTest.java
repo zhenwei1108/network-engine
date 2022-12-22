@@ -21,7 +21,7 @@ public class NettyClientTest {
     ClientMessagePostProcessor clientMessagePostProcessor = new ClientMessagePostProcessor();
     client.client("127.0.0.1", 9999, clientMessagePostProcessor);
     ClientMessage clientMessage = new ClientMessage();
-    clientMessage.setData(new byte[]{1, 2, 3, 4, 5, 67, 8, 9});
+    clientMessage.setEncode(new byte[]{1, 2, 3, 4, 5, 67, 8, 9});
     clientMessage.setMsg("this is message");
     clientMessage.setMessageId(123123123);
     MessageEntityFuture future = new MessageEntityFuture();
@@ -48,13 +48,13 @@ public class NettyClientTest {
 
     @Override
     public BaseMessage postProcessMessage(BaseMessage message) {
-      System.out.println("客户端处理消息" + Hex.toHexString(message.getData()));
+      System.out.println("客户端处理消息" + Hex.toHexString(message.getEncode()));
       return message;
     }
 
     @Override
     public byte[] postProcessBeforeSendMessage(BaseMessage message) {
-      return message.getData();
+      return message.getEncode();
     }
   }
 
@@ -65,7 +65,7 @@ public class NettyClientTest {
   class ClientMessage implements BaseMessage {
 
     String msg;
-    byte[] data;
+    byte[] encode;
     long messageId;
   }
 
