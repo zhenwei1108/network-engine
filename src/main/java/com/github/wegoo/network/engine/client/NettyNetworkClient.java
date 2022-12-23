@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.client;
 
-import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.message.BaseMessage;
+import com.github.wegoo.network.engine.processor.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.client.coder.NettyClientDecoder;
 import com.github.wegoo.network.engine.client.coder.NettyClientEncoder;
 import com.github.wegoo.network.engine.client.handler.NettyClientChannelHandler;
@@ -52,8 +52,6 @@ public class NettyNetworkClient implements INetworkClient {
       this.channel.close();
     }
   }
-
-
 
 
 }

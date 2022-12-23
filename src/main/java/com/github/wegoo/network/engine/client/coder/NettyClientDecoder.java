@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.client.coder;
 
-import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.message.BaseMessage;
+import com.github.wegoo.network.engine.processor.BaseMessagePostProcessor;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;

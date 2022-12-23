@@ -1,4 +1,4 @@
-package com.github.wegoo.network.engine;
+package com.github.wegoo.network.engine.message;
 
 /**
  * @author: zhangzhenwei 

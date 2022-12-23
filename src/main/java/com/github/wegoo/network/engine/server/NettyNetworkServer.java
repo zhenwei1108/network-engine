@@ -1,7 +1,7 @@
 package com.github.wegoo.network.engine.server;
 
-import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.message.BaseMessage;
+import com.github.wegoo.network.engine.processor.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.server.coder.NettyServerDecoder;
 import com.github.wegoo.network.engine.server.coder.NettyServerEncoder;
 import com.github.wegoo.network.engine.server.handler.NettyServerChannelHandler;

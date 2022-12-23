@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author: zhangzhenwei
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
  * @date: 2022/12/21  22:23
  * @since: 1.0.0
  */
-@Slf4j
 public class FutureHolder {
 
   /**
