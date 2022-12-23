@@ -24,7 +24,7 @@ public class NettyNetworkClient implements INetworkClient {
 
   Channel channel;
 
-  public void client(String host, int port, BaseMessagePostProcessor<BaseMessage> processor)
+  public NettyNetworkClient(String host, int port, BaseMessagePostProcessor<BaseMessage> processor)
       throws InterruptedException {
     NioEventLoopGroup work = new NioEventLoopGroup(1);
     ChannelFuture future = new Bootstrap().channel(NioSocketChannel.class)

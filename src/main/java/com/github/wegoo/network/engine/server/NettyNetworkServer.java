@@ -16,15 +16,15 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 /**
- * @author: zhangzhenwei 
+ * @author: zhangzhenwei
  * @description: NettyNetworkServer
  *  服务端实现， 服务端要持久运行，不支持关闭
  * @date: 2022/12/21  17:17
- * @since: 1.0.0 
+ * @since: 1.0.0
  */
 public class NettyNetworkServer implements INetworkServer {
 
-  public void server(int port, BaseMessagePostProcessor<BaseMessage> baseMessagePostProcessor)
+  public NettyNetworkServer(int port, BaseMessagePostProcessor<BaseMessage> postProcessor)
       throws InterruptedException {
     NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
     NioEventLoopGroup workGroup = new NioEventLoopGroup();
@@ -41,9 +41,9 @@ public class NettyNetworkServer implements INetworkServer {
             @Override
             protected void initChannel(NioSocketChannel channel) throws Exception {
               channel.pipeline()
-                  .addLast(new NettyServerDecoder(baseMessagePostProcessor))
-                  .addLast(new NettyServerEncoder(baseMessagePostProcessor))
-                  .addLast(new NettyServerChannelHandler(baseMessagePostProcessor));
+                  .addLast(new NettyServerDecoder(postProcessor))
+                  .addLast(new NettyServerEncoder(postProcessor))
+                  .addLast(new NettyServerChannelHandler(postProcessor));
             }
           });
       ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
