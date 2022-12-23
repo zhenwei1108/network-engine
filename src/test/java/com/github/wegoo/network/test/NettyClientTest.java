@@ -1,7 +1,7 @@
 package com.github.wegoo.network.test;
 
-import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.message.BaseMessage;
+import com.github.wegoo.network.engine.processor.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.client.NettyNetworkClient;
 import com.github.wegoo.network.engine.client.future.FutureHolder;
 import com.github.wegoo.network.engine.client.future.MessageEntityFuture;
@@ -17,9 +17,10 @@ public class NettyClientTest {
 
   @Test
   public void testClient() throws InterruptedException, ExecutionException {
-    NettyNetworkClient client = new NettyNetworkClient();
+    //客户端消息处理器
     ClientMessagePostProcessor clientMessagePostProcessor = new ClientMessagePostProcessor();
-    client.client("127.0.0.1", 9999, clientMessagePostProcessor);
+    //构造客户端
+    NettyNetworkClient client = new NettyNetworkClient("127.0.0.1", 9999, clientMessagePostProcessor);
     ClientMessage clientMessage = new ClientMessage();
     clientMessage.setEncode(new byte[]{1, 2, 3, 4, 5, 67, 8, 9});
     clientMessage.setMsg("this is message");
@@ -30,7 +31,6 @@ public class NettyClientTest {
     //需要在接收到服务端的应答后，标记success，此处才可以get到
     byte[] bytes = future.get();
     System.out.println(Hex.toHexString(bytes));
-
 
   }
 

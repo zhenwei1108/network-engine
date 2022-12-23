@@ -1,7 +1,7 @@
 package com.github.wegoo.network.test;
 
-import com.github.wegoo.network.engine.BaseMessage;
-import com.github.wegoo.network.engine.BaseMessagePostProcessor;
+import com.github.wegoo.network.engine.message.BaseMessage;
+import com.github.wegoo.network.engine.processor.BaseMessagePostProcessor;
 import com.github.wegoo.network.engine.server.NettyNetworkServer;
 import io.netty.buffer.ByteBuf;
 import lombok.Data;
@@ -13,14 +13,12 @@ public class NettyServerTest {
   @Test
   public void testServer() throws InterruptedException {
 
-    NettyNetworkServer nettyNetworkServer = new NettyNetworkServer();
-    TestBaseMessageHandler handler = new TestBaseMessageHandler();
-    nettyNetworkServer.server(9999, handler);
-
+    ServerMessagePostProcessor processor = new ServerMessagePostProcessor();
+    NettyNetworkServer nettyNetworkServer = new NettyNetworkServer(9999, processor);
   }
 
 
-  class TestBaseMessageHandler implements BaseMessagePostProcessor<BaseMessage> {
+  class ServerMessagePostProcessor implements BaseMessagePostProcessor<BaseMessage> {
 
     @Override
     public BaseMessage postProcessReadByteBuf(ByteBuf buf) {
@@ -28,7 +26,7 @@ public class NettyServerTest {
       buf.readBytes(array);
       System.out.println("pre handler :" + Hex.toHexString(array));
       ProtocolChannel protocolChannel = new ProtocolChannel();
-      protocolChannel.setData(array);
+      protocolChannel.setEncode(array);
       protocolChannel.setMessageId(22222222);
       protocolChannel.setLen(array.length);
       protocolChannel.setType("安全通道");
@@ -40,8 +38,8 @@ public class NettyServerTest {
       if (message instanceof ProtocolChannel) {
         ProtocolChannel channel = (ProtocolChannel) message;
         System.out.println("doHandler:" + channel.getType());
-        System.out.println("doHandler:" + Hex.toHexString(channel.getData()));
-        channel.setData(new byte[]{1, 2, 3, 4, 5, 6});
+        System.out.println("doHandler:" + Hex.toHexString(channel.getEncode()));
+        channel.setEncode(new byte[]{1, 2, 3, 4, 5, 6});
       }
       return message;
     }
@@ -50,8 +48,8 @@ public class NettyServerTest {
     public byte[] postProcessBeforeSendMessage(BaseMessage message) {
       if (message instanceof ProtocolChannel) {
         ProtocolChannel channel = (ProtocolChannel) message;
-        System.out.println("afterHandler:" + Hex.toHexString(channel.getData()));
-        return channel.getData();
+        System.out.println("afterHandler:" + Hex.toHexString(channel.getEncode()));
+        return channel.getEncode();
       }
       return null;
     }
@@ -64,7 +62,7 @@ public class NettyServerTest {
     private long messageId;
     private String type;
     private int len;
-    private byte[] data;
+    private byte[] encode;
   }
 
 }
