@@ -22,6 +22,9 @@ public class NettyClientDecoder extends ReplayingDecoder<Void> {
 
   @Override
   protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-    out.add(processor.postProcessReadByteBuf(in));
+    BaseMessage message = processor.postProcessReadByteBuf(in);
+    if (message != null) {
+      out.add(message);
+    }
   }
 }
