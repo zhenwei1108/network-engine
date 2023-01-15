@@ -1,6 +1,6 @@
 # network-engine
 # 互联网通信sdk，基于netty实现，支持自定义协议实现
-
+当前主要针对自定义协议
 ## client
 提供默认的 TimeStampFuture 实现。
 在构造客户端时，需要使用BaseMessagePostProcessor完成业务处理
